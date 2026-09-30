@@ -2,7 +2,8 @@
 // images[0] is the cover; images.slice(1) appear below all project details.
 // imageFolder enables bounded discovery of new numbered files without editing this list.
 // Existing files are also listed here for immediate rendering before discovery completes.
-// Paths are relative to index.html. Empty links and dates are not displayed.
+// Paths are relative to index.html. Add external buttons with { type, label, url }.
+// Empty dates are not displayed.
 window.PORTFOLIO_PROJECTS = [
   {
     id: "purrfect-parcel",
@@ -27,7 +28,10 @@ window.PORTFOLIO_PROJECTS = [
       "Prepared and released the project for mobile platforms.",
       "Managed the project structure and mobile build pipeline through the release stage."
     ],
-    links: { github: "", video: "", demo: "", download: "", store: "" }
+    links: [
+      { type: "store", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.baggu4402.purrfectparcel" },
+      { type: "video", label: "Watch Video", url: "https://youtube.com/shorts/X44ut0nng0g" }
+    ]
   },
   {
     id: "parcelknight",
@@ -51,7 +55,9 @@ window.PORTFOLIO_PROJECTS = [
       "Implemented gameplay map elements and traps.",
       "Handled host/client gameplay interactions so multiplayer features behaved consistently during a session."
     ],
-    links: { github: "", video: "https://www.youtube.com/watch?v=A5hnTB9aoWU", demo: "", download: "", store: "" }
+    links: [
+      { type: "video", label: "Watch Video", url: "https://www.youtube.com/watch?v=A5hnTB9aoWU" }
+    ]
   },
   {
     id: "animal-rider",
@@ -76,7 +82,9 @@ window.PORTFOLIO_PROJECTS = [
       "Used a Listen Server and handled important gameplay state changes on the server to keep multiplayer sessions consistent.",
       "Designed the core systems without unnecessary per-frame Tick logic."
     ],
-    links: { github: "", video: "", demo: "", download: "", store: "" }
+    links: [
+      { type: "video", label: "Watch Video", url: "https://www.youtube.com/watch?v=DlzeSp2aAUw" }
+    ]
   },
   {
     id: "weathertwin",
@@ -101,6 +109,8 @@ window.PORTFOLIO_PROJECTS = [
       "Implemented switching between a map view and a 3D environment while preserving the current application state.",
       "Mapped weather conditions to visual changes in the 3D environment, including surface wetness and weather information displays."
     ],
-    links: { github: "https://github.com/baggu4402/WeatherTwin", video: "", demo: "", download: "", store: "" }
+    links: [
+      { type: "video", label: "Watch Video", url: "https://youtu.be/KXTYHpM2AIo?si=P9bct1yJpshfubFt" }
+    ]
   }
 ];

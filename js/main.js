@@ -40,13 +40,9 @@
   function link(label, href, className) {
     const anchor = element("a", className, label);
     anchor.href = href;
-    if (/^https?:$/i.test(new URL(href, window.location.href).protocol)) {
-      if (new URL(href, window.location.href).origin !== window.location.origin) {
-        anchor.target = "_blank";
-        anchor.rel = "noopener noreferrer";
-        anchor.append(element("span", "sr-only", " (opens in a new tab)"));
-      }
-    }
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    anchor.append(element("span", "sr-only", " (opens in a new tab)"));
     return anchor;
   }
 
@@ -199,9 +195,10 @@
 
   function projectLinks(project, className) {
     const group = element("div", className);
-    for (const [field, label] of [["github", "GitHub ↗"], ["video", "Watch Video ↗"], ["demo", "Demo ↗"], ["download", "Download ↓"], ["store", "Store ↗"]]) {
-      const href = safeUrl(project.links?.[field]);
-      if (href) group.append(link(label, href, "project-link"));
+    for (const item of Array.isArray(project.links) ? project.links : []) {
+      const href = safeUrl(item?.url);
+      if (!href || !item.label) continue;
+      group.append(link(item.label, href, "project-link"));
     }
     return group;
   }
@@ -334,11 +331,11 @@
     const actions = projectLinks(project, "card-actions");
     const button = element("button", "detail-button");
     button.type = "button";
-    button.append(element("span", "", "View details"), element("span", "", "↗"));
+    button.append(element("span", "", "View Details"), element("span", "", "↗"));
     button.setAttribute("aria-label", `View ${project.title} details`);
     button.setAttribute("aria-haspopup", "dialog");
     button.addEventListener("click", () => openDetails(project, button));
-    actions.append(button);
+    actions.prepend(button);
     body.append(actions);
     card.append(body);
     return card;

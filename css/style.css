@@ -138,12 +138,14 @@ ul { list-style: none; margin: 0; padding: 0; }
 .tag { font-size: 10px; border-radius: 4px; border: 1px solid #3c4736; padding: 3px 9px; color: #bdc8b6; }
 .card-metadata { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 4px; color: #99a791; font-size: 11px; }
 .role-label { color: var(--subtle); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
-.card-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; border-top: 1px solid var(--line); margin-top: 18px; padding-top: 10px; }
-.detail-button { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-left: auto; color: var(--text); border: 0; background: transparent; padding: 6px 0 6px 8px; min-height: 36px; font-size: 12px; }
-.detail-button > span:last-child { font-size: 21px; line-height: 1; color: var(--accent); }
-.detail-button:hover { color: var(--accent); }
-.project-link { color: #c9d6bf; font-size: 12px; padding-block: 8px; overflow-wrap: anywhere; }
-.project-link:hover { color: var(--accent); }
+.card-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; border-top: 1px solid var(--line); margin-top: 18px; padding-top: 14px; }
+.detail-button, .project-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; max-width: 100%; min-height: 36px; padding: 8px 10px; border: 1px solid #536647; border-radius: 5px; font-size: 12px; line-height: 1.2; text-align: center; }
+.detail-button { color: var(--text); border-color: var(--accent); background: #9bc9781c; }
+.detail-button > span:last-child { font-size: 16px; line-height: 1; color: var(--accent); }
+.detail-button:hover { color: var(--accent); background: #9bc9782b; }
+.project-link { color: #c9d6bf; overflow-wrap: anywhere; }
+.project-link::after { content: "↗"; color: var(--accent); font-size: 14px; line-height: 1; }
+.project-link:hover { color: var(--accent); border-color: var(--accent); }
 .empty-state { text-align: center; padding: 60px 24px; border: 1px dashed var(--line); color: var(--muted); border-radius: var(--radius); }
 
 .skills-section { display: grid; grid-template-columns: 1fr 2.25fr; gap: 55px; }
@@ -200,7 +202,7 @@ a.contact-link:hover strong { color: var(--accent); }
 .challenge-list li + li { margin-top: 10px; }
 .challenge-list li::marker { color: #829766; }
 .dialog-links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
-.dialog-links .project-link { padding: 9px 16px; border: 1px solid #536647; border-radius: 5px; }
+.dialog-links .project-link { padding: 9px 16px; }
 .project-gallery { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--line); }
 .project-gallery h3 { font-size: 17px; margin-bottom: 18px; }
 .gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px; }
@@ -295,7 +297,7 @@ a.contact-link:hover strong { color: var(--accent); }
   .card-category { font-size: 10px; }
   .card-metadata { font-size: 11px; }
   .tag { font-size: 11px; }
-  .detail-button { min-height: 44px; font-size: 13px; }
+  .card-actions .detail-button, .card-actions .project-link { min-height: 44px; font-size: 13px; }
   .skill-group { grid-template-columns: 1fr; gap: 16px; padding-block: 22px; }
   .skill-chip { font-size: 12px; padding: 8px 15px; }
   .toolbox-mark { font-size: 45px; }
