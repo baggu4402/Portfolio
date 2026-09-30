@@ -10,8 +10,13 @@
   const imageDialog = document.querySelector("#image-dialog");
   const lightboxContent = document.querySelector("#lightbox-content");
   const filterCategories = ["Unity", "Unreal Engine", "Digital Twin"];
+  const imageLoader = window.PORTFOLIO_IMAGE_LOADER;
+  const coverRequests = new WeakMap();
   let lastDetailButton = null;
   let lastGalleryButton = null;
+  let detailsVersion = 0;
+  let currentProject = null;
+  let pendingGalleryRefresh = null;
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -64,7 +69,63 @@
   }
 
   function imageAlt(project, index) {
-    return project.imageAlts?.[index] || `${project.title} — project image ${index + 1}`;
+    return project.imageAlts?.[index] || `${project.title} — project image ${imageNumber(project, index)}`;
+  }
+
+  function imageNumber(project, index) {
+    return /\/(\d{2})\.[^/]+$/.exec(project.images?.[index] || "")?.[1] || String(index + 1).padStart(2, "0");
+  }
+
+  function applyFoundImages(project, images) {
+    const alts = new Map((project.images || []).map((source, index) => [source, project.imageAlts?.[index]]));
+    project.images = images;
+    project.imageAlts = images.map((source, index) => alts.get(source) || `${project.title} — project image ${imageNumber(project, index)}`);
+    updateRenderedCover(project);
+  }
+
+  function updateRenderedCover(project) {
+    const wrappers = [...grid.querySelectorAll(".project-card")]
+      .filter(card => card.dataset.projectId === project.id)
+      .map(card => card.querySelector(".project-media"));
+    if (dialog.open && currentProject === project) wrappers.push(dialogContent.querySelector(".project-media"));
+    for (const wrapper of wrappers) {
+      if (!wrapper || wrapper.querySelector('.media-toggle[aria-pressed="true"]')) continue;
+      const source = safeUrl(project.images?.[0]);
+      if (source && wrapper.querySelector(".project-image").getAttribute("src") !== source) {
+        wrapper.replaceWith(projectMedia(project, wrapper.closest("#project-dialog") !== null));
+      }
+    }
+  }
+
+  function ensureCover(project) {
+    if (!imageLoader || !project.imageFolder || coverRequests.has(project)) return;
+    const request = imageLoader.findProjectCover(project.imageFolder, project.images).then(async source => {
+      if (source) {
+        if (project.images?.[0] !== source) {
+          applyFoundImages(project, [source, ...(project.images || []).filter(image => image !== source)]);
+        }
+      } else {
+        applyFoundImages(project, await imageLoader.findProjectImages(project.imageFolder, project.images));
+      }
+    });
+    coverRequests.set(project, request);
+  }
+
+  const coverObserver = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const project = projects.find(item => item.id === entry.target.dataset.projectId);
+      if (project) ensureCover(project);
+      coverObserver.unobserve(entry.target);
+    }
+  }, { rootMargin: "240px" }) : null;
+
+  function fillGallery(project, slot) {
+    const focusedPath = slot.contains(document.activeElement) ? document.activeElement.dataset.imagePath : null;
+    slot.replaceChildren();
+    slot.removeAttribute("aria-busy");
+    if (project.images?.length > 1) slot.append(projectGallery(project));
+    if (focusedPath) [...slot.querySelectorAll(".gallery-image")].find(button => button.dataset.imagePath === focusedPath)?.focus();
   }
 
   function projectMedia(project, detail = false) {
@@ -170,14 +231,15 @@
       const fallback = `./assets/images/placeholder-${mediaTheme(project)}.svg`;
       const button = element("button", "gallery-image");
       button.type = "button";
-      button.setAttribute("aria-label", `View ${project.title} image ${index + 1} full size`);
+      button.setAttribute("aria-label", `View ${project.title} image ${imageNumber(project, index)} full size`);
+      button.dataset.imagePath = source;
       const image = element("img");
       image.width = 640;
       image.height = 400;
       image.loading = "lazy";
       image.decoding = "async";
       image.alt = imageAlt(project, index);
-      const caption = element("span", "gallery-caption", `Image ${String(index + 1).padStart(2, "0")} ↗`);
+      const caption = element("span", "gallery-caption", `Image ${imageNumber(project, index)} ↗`);
       function unavailable() {
         button.disabled = true;
         caption.textContent = "Image unavailable";
@@ -199,6 +261,9 @@
   }
 
   function openDetails(project, button) {
+    const version = ++detailsVersion;
+    currentProject = project;
+    pendingGalleryRefresh = null;
     lastDetailButton = button;
     dialogContent.replaceChildren();
     const heading = element("div", "dialog-heading");
@@ -229,11 +294,27 @@
     }
     const links = projectLinks(project, "dialog-links");
     if (links.childElementCount) text.append(links);
-    if (Array.isArray(project.images) && project.images.length > 1) text.append(projectGallery(project));
+    const gallerySlot = element("div", "gallery-slot");
+    fillGallery(project, gallerySlot);
+    text.append(gallerySlot);
     dialogContent.append(text);
     dialog.showModal();
     document.body.classList.add("dialog-open");
     dialog.querySelector(".dialog-close").focus();
+    if (imageLoader && project.imageFolder) {
+      gallerySlot.setAttribute("aria-busy", "true");
+      const status = element("p", "sr-only", "Checking project images.");
+      status.setAttribute("role", "status");
+      gallerySlot.append(status);
+      imageLoader.findProjectImages(project.imageFolder, project.images).then(images => {
+        applyFoundImages(project, images);
+        const refresh = () => {
+          if (dialog.open && version === detailsVersion && currentProject === project) fillGallery(project, gallerySlot);
+        };
+        if (dialog.open && version === detailsVersion && currentProject === project && imageDialog.open) pendingGalleryRefresh = refresh;
+        else refresh();
+      });
+    }
   }
 
   function projectCard(project, index) {
@@ -264,9 +345,12 @@
   }
 
   function renderProjects(category = "All") {
+    coverObserver?.disconnect();
     grid.replaceChildren();
     const visible = projects.filter(project => category === "All" || categories(project).includes(category));
     for (const project of visible) grid.append(projectCard(project, projects.indexOf(project)));
+    if (coverObserver) for (const card of grid.children) coverObserver.observe(card);
+    else for (const project of visible) ensureCover(project);
     document.querySelector("#project-count").textContent = `${String(visible.length).padStart(2, "0")} projects`;
     document.querySelector("#empty-state").hidden = visible.length > 0;
     for (const button of filters.children) button.setAttribute("aria-pressed", String(button.dataset.category === category));
@@ -365,6 +449,9 @@
   function finishClose() {
     // A queued native close event must not clear a newly opened project.
     if (dialog.open || !dialogContent.childElementCount) return;
+    detailsVersion++;
+    currentProject = null;
+    pendingGalleryRefresh = null;
     document.body.classList.remove("dialog-open");
     dialogContent.replaceChildren();
     if (lastDetailButton?.isConnected) lastDetailButton.focus();
@@ -408,6 +495,9 @@
     if (imageDialog.open || !lightboxContent.childElementCount) return;
     lightboxContent.replaceChildren();
     if (lastGalleryButton?.isConnected) lastGalleryButton.focus();
+    const refresh = pendingGalleryRefresh;
+    pendingGalleryRefresh = null;
+    if (refresh) refresh();
   }
 
   function closeImage() {

@@ -1,7 +1,7 @@
 // Project order, copy, categories, images, and links are managed here.
 // images[0] is the cover; images.slice(1) appear below all project details.
-// Replace each supplied 01.webp placeholder with your project image.
-// Add 02.webp, 03.png, etc. to images and supply matching imageAlts.
+// imageFolder enables bounded discovery of new numbered files without editing this list.
+// Existing files are also listed here for immediate rendering before discovery completes.
 // Paths are relative to index.html. Empty links and dates are not displayed.
 window.PORTFOLIO_PROJECTS = [
   {
@@ -13,7 +13,13 @@ window.PORTFOLIO_PROJECTS = [
     description: "A mobile game developed with Unity. I handled the project from development through release on Android and iOS.",
     period: "",
     technologies: ["Unity", "C#", "Mobile", "Android", "iOS"],
-    images: ["./assets/projects/purrfect-parcel/01.webp"],
+    imageFolder: "./assets/projects/purrfect-parcel",
+    images: [
+      "./assets/projects/purrfect-parcel/01.webp",
+      "./assets/projects/purrfect-parcel/02.webp",
+      "./assets/projects/purrfect-parcel/03.webp",
+      "./assets/projects/purrfect-parcel/04.webp"
+    ],
     imageAlts: ["Purrfect Parcel project preview"],
     gif: "",
     technicalChallenges: [
@@ -32,7 +38,12 @@ window.PORTFOLIO_PROJECTS = [
     description: "An Unreal Engine multiplayer project focused on host-client cooperative gameplay.",
     period: "",
     technologies: ["Unreal Engine", "Multiplayer", "Host / Client"],
-    images: ["./assets/projects/parcelknight/01.webp"],
+    imageFolder: "./assets/projects/parcelknight",
+    images: [
+      "./assets/projects/parcelknight/01.webp",
+      "./assets/projects/parcelknight/02.webp",
+      "./assets/projects/parcelknight/03.webp"
+    ],
     imageAlts: ["ParcelKnight project preview"],
     gif: "",
     technicalChallenges: [
@@ -51,7 +62,12 @@ window.PORTFOLIO_PROJECTS = [
     description: "A cooperative Unreal Engine multiplayer project built around safely transporting cargo through the level.",
     period: "",
     technologies: ["Unreal Engine", "C++", "Replication", "Listen Server", "GameMode"],
-    images: ["./assets/projects/animal-rider/01.webp"],
+    imageFolder: "./assets/projects/animal-rider",
+    images: [
+      "./assets/projects/animal-rider/01.webp",
+      "./assets/projects/animal-rider/02.webp",
+      "./assets/projects/animal-rider/03.webp"
+    ],
     imageAlts: ["Animal Rider project preview"],
     gif: "",
     technicalChallenges: [
@@ -71,7 +87,12 @@ window.PORTFOLIO_PROJECTS = [
     description: "A Unity-based digital twin project that receives real-time weather data from the Korea Meteorological Administration (KMA) and visualizes it in a virtual environment.",
     period: "",
     technologies: ["Unity", "C#", "Digital Twin", "KMA Weather Data", "Real-time Data"],
-    images: ["./assets/projects/weathertwin/01.webp"],
+    imageFolder: "./assets/projects/weathertwin",
+    images: [
+      "./assets/projects/weathertwin/01.webp",
+      "./assets/projects/weathertwin/02.webp",
+      "./assets/projects/weathertwin/03.webp"
+    ],
     imageAlts: ["WeatherTwin project preview"],
     gif: "",
     technicalChallenges: [

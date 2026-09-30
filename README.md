@@ -26,7 +26,8 @@ py -m http.server 8000 --bind 127.0.0.1
 │  └─ style.css               # 테마, 레이아웃, 반응형, 접근성
 ├─ js/
 │  ├─ config.js               # 프로필 이미지, 자기소개, 기술, 연락처
-│  ├─ projects.js             # 모든 프로젝트 데이터
+│  ├─ projects.js             # 모든 프로젝트 데이터 및 이미지 폴더
+│  ├─ project-images.js       # 번호별 이미지 탐색과 페이지 내 캐시
 │  └─ main.js                 # 카드, 복수 카테고리 필터, 상세보기, 갤러리, 확대보기
 ├─ assets/
 │  ├─ profile/
@@ -57,7 +58,7 @@ Hero 이름과 역할, 페이지 제목·설명은 `index.html`에 있습니다.
 
 모든 프로젝트 데이터는 **`D:\WebProject\Portfolio\js\projects.js`**의 `window.PORTFOLIO_PROJECTS` 배열에서 관리합니다. 카테고리는 `categories` 배열이며 한 프로젝트가 여러 필터에 포함될 수 있습니다. 기본 필터는 **All / Unity / Unreal Engine / Digital Twin**입니다. Unity는 Purrfect Parcel과 WeatherTwin, Unreal Engine은 ParcelKnight와 Animal Rider, Digital Twin은 WeatherTwin을 표시합니다.
 
-다음은 현재 등록된 프로젝트를 기준으로 한 데이터 형식입니다. 추가 이미지는 배열에 직접 등록합니다.
+다음은 현재 등록된 프로젝트를 기준으로 한 데이터 형식입니다. `imageFolder`가 있으면 번호별 이미지를 자동으로 찾습니다. 현재 파일은 `images`에도 등록해 탐색 전부터 바로 표시하며, 일반적인 사진 추가에는 배열 수정이 필요하지 않습니다.
 
 ```javascript
 {
@@ -69,6 +70,7 @@ Hero 이름과 역할, 페이지 제목·설명은 `index.html`에 있습니다.
   description: "A mobile game developed with Unity. I handled the project from development through release on Android and iOS.",
   period: "",                              // 실제 기간을 알 때만 입력
   technologies: ["Unity", "C#", "Mobile", "Android", "iOS"],
+  imageFolder: "./assets/projects/purrfect-parcel",
   images: [
     "./assets/projects/purrfect-parcel/01.webp",
     "./assets/projects/purrfect-parcel/02.webp",
@@ -97,12 +99,18 @@ Hero 이름과 역할, 페이지 제목·설명은 `index.html`에 있습니다.
 
 ## 이미지 / GIF 추가
 
-1. 아래 프로젝트별 폴더의 **`01.webp`를 실제 대표 이미지로 교체**합니다. 현재는 실제 게임 화면이 아닌 이미지 준비 중 일러스트입니다.
+1. 아래 프로젝트별 폴더에서 **`01.webp`가 대표 이미지**입니다. 현재 업로드된 실제 사진 13장을 모두 연결했습니다.
 2. 추가 이미지는 같은 폴더에 `02.webp`, `03.webp` 등의 이름으로 넣습니다.
-3. `js/projects.js`에서 해당 프로젝트의 `images` 배열에 추가 파일의 **index.html 기준 상대 경로**를 순서대로 등록합니다.
-4. `imageAlts`에 같은 순서로 각 이미지의 내용을 영어로 설명합니다. `gif`는 선택 사항이며 기존 `assets/gifs/` 또는 프로젝트별 폴더의 경로를 사용할 수 있습니다.
+3. 브라우저를 새로고침하고 프로젝트 상세보기를 열면 새 사진을 자동으로 찾습니다. 일반적인 번호별 사진 추가에는 `projects.js` 수정이 필요하지 않습니다.
+4. 더 구체적인 이미지 설명이 필요하면 `imageAlts`에 영어로 입력할 수 있습니다. 지정하지 않은 사진은 프로젝트 이름과 실제 파일 번호로 설명합니다. 별도의 `gif` 필드는 기존 재생 버튼용 선택 사항입니다.
 
-**`images[0]`이 항상 카드와 상세보기의 대표 이미지**입니다. 두 번째 항목부터 `images.slice(1)`을 상세 설명·기술·링크가 모두 끝난 뒤 **Project Gallery**에 표시합니다. 한 장만 등록하면 갤러리를 만들지 않습니다. 파일 이름 자체를 자동 검색하지 않으므로 `02` 파일을 복사한 뒤 배열에도 등록해야 합니다. PNG/JPG/WebP 등 확장자를 바꿀 때에는 배열 경로도 일치시켜 주세요.
+공통 탐색 함수 `findProjectImages(projectFolder, knownImages)`는 **01부터 숫자 순서대로 실제 로드되는 파일만** 선택합니다. 첫 사진이 카드와 상세보기의 대표 이미지이고, 나머지는 상세 설명·기술·링크가 모두 끝난 뒤 **Project Gallery**에 표시합니다. `01`이 없으면 발견한 가장 낮은 번호가 대표 이미지입니다. 대표 이미지는 갤러리에 반복하지 않으며 한 장뿐이면 갤러리를 숨깁니다.
+
+지원 확장자는 소문자 `.webp`, `.png`, `.jpg`, `.jpeg`, `.gif`입니다. `01`~`30`의 두 자리 번호를 사용하고 번호마다 파일 하나를 권장합니다. 기본 우선순위는 WebP, PNG, JPG, JPEG, GIF이며, 현재 등록된 파일과 직전에 성공한 확장자를 먼저 확인합니다. 같은 번호의 확장자가 여러 개이면 먼저 발견한 파일 하나만 사용합니다.
+
+연속 세 번호가 없으면 탐색을 종료하므로 `01, 02, 04, 05`처럼 한두 번호가 비어도 다음 사진을 찾습니다. 이미 등록한 사진이 그보다 뒤에 있다면 해당 번호까지 확인합니다. 한 프로젝트당 최대 60회 요청과 8초의 개별 요청 제한을 적용하며, 한 페이지 안에서는 확인 결과를 캐시합니다. 새 파일을 복사한 뒤에는 새로고침하세요. 세 번호 이상 비우거나 `30`을 넘기는 경우에는 번호를 이어 붙이거나 데이터와 탐색 제한을 조정해야 합니다.
+
+대표 이미지는 먼저 확인하고, 전체 사진 탐색은 상세보기를 열었을 때 시작합니다. 새 사진은 확인이 끝나면 기존 상세 화면에 반영됩니다. 백엔드·서버 파일 목록 API·새 패키지는 사용하지 않습니다. `Image.onload`/`onerror`로 실패를 정상 처리하여 실패 후보를 갤러리에 넣지 않습니다. 존재 여부를 확인하는 특성상 HTTP 환경에서는 없는 후보 파일의 **404 리소스 로그**가 생길 수 있습니다. 이는 탐색 중 정상적인 실패이며 JavaScript 예외와 다릅니다.
 
 바로 파일을 넣을 위치 (루트: `D:\WebProject\Portfolio`):
 
@@ -134,7 +142,7 @@ assets/projects/weathertwin/02.webp
 권장 사항:
 
 - 대표 이미지는 WebP/AVIF/JPEG를 사용하고, 원본을 적절한 해상도로 줄여 저장하세요. 카드용은 대략 가로 800–1200px, 파일 크기 100–300KB 수준을 목표로 하면 좋습니다. 자동 압축 기능은 없습니다.
-- 미리보기는 16:10 비율입니다. 카드에는 `object-fit: cover`를 적용하므로 원본 비율은 유지하되 가장자리가 잘릴 수 있습니다. 상세보기는 `object-fit: contain`으로 전체 이미지를 보여 줍니다.
+- 카드 미리보기는 16:10 비율이고 `object-fit: cover`이므로 가장자리가 잘릴 수 있습니다. 상세 대표 이미지는 `object-fit: contain`, 하단 갤러리는 `width: 100%; height: auto`로 전체 원본 비율을 유지합니다.
 - `images`가 비었거나 대표 이미지 경로가 잘못되면 로컬 SVG와 영어 준비 중 표시가 나옵니다. 갤러리의 잘못된 이미지도 대체하며 확대 버튼을 비활성화합니다. 레이아웃 크기는 유지됩니다.
 - 카드는 `loading="lazy"`, `decoding="async"`, 고정 미디어 비율로 로딩 부담과 화면 이동을 줄입니다.
 - GIF는 자동으로 받거나 재생하지 않습니다. **Play GIF** 버튼을 눌러야 로드하고, **Pause GIF**로 정적 이미지로 돌아갑니다. 짧고 적절한 해상도의 GIF를 사용하세요. 상세보기를 닫으면 모달의 GIF도 제거됩니다.
@@ -175,7 +183,7 @@ git commit -m "Create developer portfolio"
 git push -u origin main
 ```
 
-초기 파일들은 untracked 상태이므로 `git diff`에는 나타나지 않습니다. 파일을 열어 확인하거나 `git add` 후 `git diff --cached`로 확인하세요. **이번 제작 작업에서는 add, commit, push를 실행하지 않습니다.** 원격에 다른 변경이 생겼다면 상태를 확인하고 먼저 조정하세요.
+`git status`와 `git diff`로 변경을 확인하세요. 새 파일은 untracked 상태이므로 파일을 직접 열어 확인하거나, 직접 스테이징한 뒤 `git diff --cached`로 확인할 수 있습니다. **이번 수정 작업에서는 add, commit, push를 실행하지 않습니다.** 원격에 다른 변경이 생겼다면 상태를 확인하고 먼저 조정하세요.
 
 푸시한 뒤 GitHub 저장소에서:
 
@@ -199,6 +207,6 @@ git push -u origin main
 
 ## 제작 시 검증 결과 (2026-09-30)
 
-Microsoft Edge(Chromium) 로컬 검증 **25개 항목이 모두 통과**했습니다. 결과는 `.local/verification-baggu.json`에 있습니다. Baggu 브랜딩·영어 UI·연락처·지정 링크, 정확히 네 프로젝트와 복수 카테고리, 375 / 768 / 1024 / 1440px 레이아웃, 대표 이미지·하단 갤러리·확대보기의 키보드 접근성, 이미지 누락 처리, `file://` 직접 열기와 `/baggu4402/` 하위 경로를 확인했습니다. 기본 화면의 콘솔·실행 오류, 실패 요청, HTTP 오류는 모두 0건입니다. 실제 스크린샷이 아직 없으므로 추가 이미지와 실패 경로는 별도 임시 검증 데이터로 확인했으며 프로젝트 데이터에는 남기지 않았습니다.
+최신 갤러리 검증은 실제 업로드된 Purrfect Parcel 4장, ParcelKnight 3장, Animal Rider 3장, WeatherTwin 3장을 대상으로 수행합니다. 결과는 `.local/verification-gallery.json`에 기록합니다. 카드·상세 대표 이미지와 모든 추가 사진, 375 / 768 / 1440px 화면, 확대보기, 새 사진 자동 탐색·누락 번호·다른 확장자·요청 제한·캐시, `file://`와 `/baggu4402/` 경로를 확인합니다. 테스트 중 추가 파일·누락 상황은 브라우저 응답으로만 구성하고 실제 이미지 파일은 삭제하거나 변경하지 않습니다.
 
 검증 스크립트·화면 캡처·결과 JSON은 Git에서 제외한 로컬 `.local/`에 있습니다. 커밋·푸시·실제 GitHub Pages 배포는 수행하지 않았으므로 원격 배포 화면은 아직 검증하지 않았습니다.
