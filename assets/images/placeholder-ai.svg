@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+  <defs><radialGradient id="g"><stop stop-color="#2c4047"/><stop offset="1" stop-color="#1c2328"/></radialGradient><pattern id="p" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#556f7a" opacity=".4"/></pattern></defs>
+  <rect width="640" height="400" fill="url(#g)"/><rect width="640" height="400" fill="url(#p)"/>
+  <g stroke="#81b7bb" opacity=".35"><path d="M155 130 265 95 375 130 485 200M155 130l110 65 110-65M155 130l110 165 110-95 110 0M155 200l110-105 110 105 110 0M155 200l110-5 110 5M155 200l110 95 110-165M155 270l110-175 110 175 110-70M155 270l110-75 110 75M155 270l110 25 110-25M265 95l110 105M265 195l110-65M265 195l110 75M265 295l110-95M375 130l110 70M375 270l110-70"/></g>
+  <g fill="#253a40" stroke="#8fc4c4" stroke-width="2"><circle cx="155" cy="130" r="12"/><circle cx="155" cy="200" r="12"/><circle cx="155" cy="270" r="12"/><circle cx="265" cy="95" r="14"/><circle cx="265" cy="195" r="14"/><circle cx="265" cy="295" r="14"/><circle cx="375" cy="130" r="14"/><circle cx="375" cy="200" r="14"/><circle cx="375" cy="270" r="14"/></g>
+  <g fill="#b0dddd"><circle cx="265" cy="195" r="5"/><circle cx="155" cy="200" r="4"/><circle cx="375" cy="130" r="5"/></g>
+  <circle cx="485" cy="200" r="27" fill="#243a3d" stroke="#b7e5c1" stroke-width="2"/><circle cx="485" cy="200" r="17" fill="#b7e5c1"/><path d="m478 200 5 5 9-10" stroke="#294d35" stroke-width="2"/>
+  <g font-family="Consolas,monospace" font-size="10" letter-spacing="2" fill="#8ba6b0"><text x="68" y="64">INPUT</text><text x="249" y="64">LEARN</text><text x="457" y="64">OUTPUT</text><text x="412" y="349">EXPLORE DATA</text></g>
+  <path d="M70 107v187M66 107h8M66 294h8" stroke="#698b92" opacity=".6"/>
+</svg>

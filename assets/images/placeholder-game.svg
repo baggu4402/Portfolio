@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+  <defs><radialGradient id="g"><stop stop-color="#3e5531"/><stop offset="1" stop-color="#20281d"/></radialGradient></defs>
+  <rect width="640" height="400" fill="url(#g)"/>
+  <g stroke="#4e633e" opacity=".45"><path d="m40 252 284 164M90 223l284 164M140 194l284 164M190 165l284 164M240 136l284 164M290 107l284 164M340 78l284 164M40 252 300-173M90 281l300-173M140 310l300-173M190 339l300-173M240 368l300-173M290 397l300-173"/></g>
+  <path d="m176 231 144-83 144 83-144 83z" fill="#141c11"/>
+  <path d="m199 210 66-38 66 38-66 38z" fill="#a9cd7b" stroke="#d0e8ae"/>
+  <path d="m199 210 66 38v56l-66-38z" fill="#5b7e3d" stroke="#89ad61"/>
+  <path d="m265 248 66-38v56l-66 38z" fill="#365424" stroke="#89ad61"/>
+  <path d="m265 158 65-38 66 38-66 38z" fill="#c5e89a" stroke="#ddf4b7"/>
+  <path d="m265 158 65 38v89l-65-37z" fill="#648745" stroke="#9fc978"/>
+  <path d="m330 196 66-38v89l-66 38z" fill="#3e5c2b" stroke="#9fc978"/>
+  <path d="m330 229 66-38 65 38-65 38z" fill="#92b869" stroke="#c3db9f"/>
+  <path d="m330 229 66 38v48l-66-38z" fill="#4a6a33"/>
+  <path d="m396 267 65-38v49l-65 37z" fill="#2e4721"/>
+  <path d="m313 95 18-10 18 10-18 11z" fill="#e0f9b4"/>
+  <path d="m313 95 18 11v22l-18-10z" fill="#9fc66d"/>
+  <path d="m331 106 18-11v23l-18 10z" fill="#6c9849"/>
+  <circle cx="331" cy="61" r="7" stroke="#c4ef90"/>
+  <path d="M331 71v11M177 131h12m-6-6v12M477 178h12m-6-6v12" stroke="#aaca85"/>
+  <g font-family="Consolas,monospace" font-size="10" letter-spacing="2" fill="#9bad8d"><text x="457" y="64">WORLD / 01</text><text x="437" y="349">BUILD &amp; PLAY</text></g>
+</svg>

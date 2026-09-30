@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+  <defs><radialGradient id="g"><stop stop-color="#42372c"/><stop offset="1" stop-color="#23201d"/></radialGradient><pattern id="p" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0v32" stroke="#75604d" opacity=".18"/></pattern></defs>
+  <rect width="640" height="400" fill="url(#g)"/><rect width="640" height="400" fill="url(#p)"/>
+  <rect x="126" y="86" width="390" height="238" rx="12" fill="#191b17" stroke="#756449"/>
+  <path d="M126 121h390" stroke="#5b523d"/>
+  <circle cx="145" cy="104" r="4" fill="#a07d5d"/><circle cx="159" cy="104" r="4" fill="#bda077"/><circle cx="173" cy="104" r="4" fill="#b2c77c"/>
+  <path d="M163 151v139" stroke="#373c30"/>
+  <g fill="#8c8c77"><rect x="185" y="151" width="27" height="6" rx="3"/><rect x="221" y="151" width="77" height="6" rx="3"/><rect x="211" y="174" width="90" height="6" rx="3"/><rect x="311" y="174" width="49" height="6" rx="3"/><rect x="211" y="197" width="58" height="6" rx="3"/><rect x="280" y="197" width="88" height="6" rx="3"/><rect x="211" y="242" width="95" height="6" rx="3"/><rect x="185" y="266" width="27" height="6" rx="3"/></g>
+  <g fill="#b9d58d"><rect x="185" y="151" width="27" height="6" rx="3"/><rect x="211" y="220" width="37" height="6" rx="3"/><rect x="259" y="220" width="57" height="6" rx="3"/></g>
+  <rect x="390" y="202" width="134" height="104" rx="8" fill="#292b21" stroke="#8b8966"/>
+  <path d="m435 237-14 14 14 14M479 237l14 14-14 14M463 231l-12 40" stroke="#d0dda5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-family="Consolas,monospace" font-size="10" letter-spacing="2" fill="#b2a087"><text x="68" y="64">CREATE / 03</text><text x="425" y="349">MAKE IT WORK</text></g>
+  <path d="M90 200h12m-6-6v12M548 150h12m-6-6v12" stroke="#9c8d64"/>
+</svg>
