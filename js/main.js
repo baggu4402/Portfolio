@@ -271,26 +271,39 @@
     if (project.type) heading.append(element("p", "dialog-type", project.type));
     dialogContent.append(heading, projectMedia(project, true));
     const text = element("div", "dialog-body");
-    text.append(element("p", "dialog-description", project.description));
-    const metadata = element("dl", "project-metadata");
-    for (const [label, value] of [["Role", project.role], ["Development period", project.period]]) {
-      if (!value) continue;
-      const item = element("div");
-      item.append(element("dt", "", label), element("dd", "", value));
-      metadata.append(item);
+    const about = element("section", "detail-section");
+    about.append(element("h3", "dialog-section-label", "About"), element("p", "dialog-description", project.description));
+    text.append(about);
+    if (project.role || project.period) {
+      const role = element("section", "detail-section");
+      role.append(element("h3", "dialog-section-label", "Role"));
+      if (project.role) role.append(element("p", "dialog-role", project.role));
+      if (project.period) {
+        const metadata = element("dl", "project-metadata");
+        const item = element("div");
+        item.append(element("dt", "", "Development period"), element("dd", "", project.period));
+        metadata.append(item);
+        role.append(metadata);
+      }
+      text.append(role);
     }
-    if (metadata.childElementCount) text.append(metadata);
-    text.append(element("h3", "dialog-section-label", "Technologies"), tags(project.technologies));
     if (Array.isArray(project.technicalChallenges) && project.technicalChallenges.length) {
-      const detailSection = element("div", "project-details");
-      detailSection.append(element("h3", "", "Technical Challenges"));
+      const detailSection = element("section", "detail-section project-details");
+      detailSection.append(element("h3", "dialog-section-label", "Technical Challenges"));
       const challenges = element("ul", "challenge-list");
       for (const challenge of project.technicalChallenges) challenges.append(element("li", "", challenge));
       detailSection.append(challenges);
       text.append(detailSection);
     }
+    const technologies = element("section", "detail-section");
+    technologies.append(element("h3", "dialog-section-label", "Technologies"), tags(project.technologies));
+    text.append(technologies);
     const links = projectLinks(project, "dialog-links");
-    if (links.childElementCount) text.append(links);
+    if (links.childElementCount) {
+      const linkSection = element("section", "detail-section");
+      linkSection.append(element("h3", "dialog-section-label", "Links"), links);
+      text.append(linkSection);
+    }
     const gallerySlot = element("div", "gallery-slot");
     fillGallery(project, gallerySlot);
     text.append(gallerySlot);
@@ -375,17 +388,18 @@
     }
     const discord = safeUrl(config.discord);
     if (discord) for (const anchor of document.querySelectorAll("[data-profile-discord]")) anchor.href = discord;
-    const avatar = document.querySelector("#profile-image");
     const profileImage = safeUrl(config.profileImage);
-    avatar.addEventListener("error", () => {
-      const fallback = "./assets/profile/placeholder.svg";
-      if (avatar.getAttribute("src") !== fallback) avatar.src = fallback;
-      else {
-        avatar.hidden = true;
-        avatar.parentElement.classList.add("profile-fallback");
-      }
-    });
-    if (profileImage) avatar.src = profileImage;
+    for (const avatar of document.querySelectorAll("[data-profile-image]")) {
+      avatar.addEventListener("error", () => {
+        const fallback = "./assets/profile/placeholder.svg";
+        if (avatar.getAttribute("src") !== fallback) avatar.src = fallback;
+        else {
+          avatar.hidden = true;
+          avatar.parentElement.classList.add("profile-fallback");
+        }
+      });
+      if (profileImage) avatar.src = profileImage;
+    }
     if (typeof config.email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(config.email.trim())) {
       const email = config.email.trim();
       const anchor = document.querySelector("#contact-email");
@@ -399,7 +413,7 @@
       item.append(element("span", "focus-number", focus.number));
       const copy = element("div");
       copy.append(element("h3", "", focus.title), element("p", "", focus.description));
-      item.append(copy, element("span", "focus-arrow", "↗"));
+      item.append(copy);
       focusList.append(item);
     }
     const skills = document.querySelector("#skills-groups");

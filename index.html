@@ -17,7 +17,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="profile-link" href="#home" aria-label="Baggu — back to top"><img id="profile-image" src="./assets/profile/profile.webp" alt="Baggu profile picture" width="44" height="44"></a>
+      <a class="profile-link" href="#home" aria-label="Baggu — back to top"><img id="profile-image" data-profile-image src="./assets/profile/profile.webp" alt="Baggu profile picture" width="36" height="36"><span class="header-name">Baggu</span></a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" hidden>
         <span>Menu</span><span class="menu-icon" aria-hidden="true"></span>
       </button>
@@ -27,14 +27,16 @@
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
         <a class="nav-github" data-profile-github href="https://github.com/baggu4402" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="nav-discord" data-profile-discord href="https://discord.com/users/496463162120601608" target="_blank" rel="noopener noreferrer">Discord <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
       </nav>
     </div>
   </header>
 
   <main id="main">
     <section class="hero container" id="home" aria-labelledby="hero-title">
+      <div class="hero-avatar"><img data-profile-image src="./assets/profile/profile.webp" alt="Baggu profile picture" width="112" height="112"></div>
       <div class="hero-copy">
-        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> DEVELOPER PORTFOLIO</p>
+        <p class="eyebrow">DEVELOPER PROFILE</p>
         <h1 id="hero-title">Baggu</h1>
         <p class="hero-role">Game Developer<br><span>AI Information Engineering Major</span></p>
         <div class="hero-actions">
@@ -45,13 +47,6 @@
           </div>
         </div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="visual-topline"><span><i></i> THE DEVELOPER'S WORKSPACE</span><span>+</span></div>
-        <img class="workspace-art" src="./assets/images/workspace.svg" width="640" height="480" alt="" fetchpriority="high">
-        <div class="code-note"><span class="code-comment">// game development</span><code><b>build();</b> test(); <span>iterate();</span></code></div>
-        <div class="visual-bottomline"><span>C++ <i>/</i> C# <i>/</i> PYTHON</span><span class="visual-plus">+</span></div>
-      </div>
-      <div class="hero-footnote"><span>GAME DEVELOPMENT <i>/</i> ARTIFICIAL INTELLIGENCE <i>/</i> SOFTWARE</span><a href="#about">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>
     </section>
 
     <section class="section container about-section" id="about" aria-labelledby="about-title">
@@ -65,9 +60,9 @@
 
     <section class="section projects-section" id="projects" aria-labelledby="projects-title">
       <div class="container">
-        <div class="section-label"><span class="section-number">02</span><p class="eyebrow">SELECTED WORK</p></div>
+      <div class="section-label"><span class="section-number">02</span><p class="eyebrow">PROJECTS</p></div>
         <div class="section-heading">
-          <div><h2 id="projects-title">Projects<span class="accent">.</span></h2><p class="section-description">Games and tools I've worked on.</p></div>
+          <div><h2 id="projects-title">Projects</h2><p class="section-description">Games and tools I've worked on.</p></div>
           <span class="project-count" id="project-count" aria-live="polite"></span>
         </div>
         <div class="project-toolbar">
@@ -80,19 +75,19 @@
     </section>
 
     <section class="section container skills-section" id="skills" aria-labelledby="skills-title">
-      <div class="section-label"><span class="section-number">03</span><p class="eyebrow">MY TOOLBOX</p></div>
+      <div class="section-label"><span class="section-number">03</span><p class="eyebrow">SKILLS & TOOLS</p></div>
       <div class="skills-content">
-        <div class="section-heading"><div><h2 id="skills-title">Skills & tools<span class="accent">.</span></h2><p class="section-description">Languages, engines, and tools I work with.</p></div><span class="toolbox-mark" aria-hidden="true">{ }</span></div>
+        <div class="section-heading"><div><h2 id="skills-title">Skills & tools</h2><p class="section-description">Languages, engines, and tools I work with.</p></div></div>
         <div class="skills-groups" id="skills-groups"></div>
         <noscript><p>C++ · C# · Python · Unreal Engine · Unity · Git · GitHub · Rider · Visual Studio</p></noscript>
       </div>
     </section>
 
     <section class="section container contact-section" id="contact" aria-labelledby="contact-title">
-      <div class="section-label"><span class="section-number">04</span><p class="eyebrow">GET IN TOUCH</p></div>
+      <div class="section-label"><span class="section-number">04</span><p class="eyebrow">CONTACT</p></div>
       <div class="contact-content">
         <p class="contact-kicker">Find me online or send an email.</p>
-        <h2 id="contact-title">Let's <span class="accent">connect.</span><span class="contact-arrow" aria-hidden="true">↗</span></h2>
+        <h2 id="contact-title">Let's connect.</h2>
         <div class="contact-links">
           <a class="contact-link" id="contact-email" href="mailto:tom44024402@gmail.com"><span><small>EMAIL</small><strong id="email-label">tom44024402@gmail.com</strong></span><span aria-hidden="true">↗</span></a>
           <a class="contact-link" data-profile-github href="https://github.com/baggu4402" target="_blank" rel="noopener noreferrer"><span><small>GITHUB</small><strong id="contact-github-label">github.com/baggu4402</strong></span><span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
@@ -102,7 +97,7 @@
     </section>
   </main>
 
-  <footer class="site-footer container"><a class="wordmark" href="#home" aria-label="Baggu — back to top">Baggu<span>.</span></a><p>© <span id="year">2026</span> Baggu</p><a class="back-to-top" href="#home">Back to top <span aria-hidden="true">↑</span></a></footer>
+  <footer class="site-footer container"><p>© <span id="year">2026</span> Baggu · Portfolio</p><a class="back-to-top" href="#home">Back to top <span aria-hidden="true">↑</span></a></footer>
 
   <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
     <div class="dialog-topbar"><span class="eyebrow">PROJECT DETAILS</span><button class="dialog-close" type="button" aria-label="Close project details">×</button></div>
