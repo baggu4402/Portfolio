@@ -404,6 +404,7 @@
       const email = config.email.trim();
       const anchor = document.querySelector("#contact-email");
       anchor.href = `mailto:${email}`;
+      for (const profileEmail of document.querySelectorAll("[data-profile-email]")) profileEmail.href = `mailto:${email}`;
       document.querySelector("#email-label").textContent = email;
       anchor.hidden = false;
     }
